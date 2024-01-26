@@ -33,9 +33,27 @@ scene.add(directionalLight);
 
 // ポイント光源
 pointLight = new THREE.PointLight(0xffffff, 10);
+console.log(pointLight);
+
+// ポイント光源の位置を特定
 pointLight.position.set(-200, -200, -200);
 scene.add(pointLight);
-console.log("scene: ", scene);
 
-// レンダリング
-renderer.render(scene, camera);
+// ポイント光源を球の周りを巡回させる
+
+const animate = () => {
+  pointLight.position.set(
+    200 * Math.sin(Date.now() / 500),
+    200 * Math.sin(Date.now() / 1000),
+    200 * Math.cos(Date.now() / 500)
+  );
+
+  // レンダリング
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+};
+
+animate();
+
+let pointLightHelper = new THREE.PointLightHelper(pointLight, 30);
+scene.add(pointLightHelper);
